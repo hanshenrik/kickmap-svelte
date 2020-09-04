@@ -2,13 +2,14 @@
   import { onMount } from "svelte";
 
   export let name: string;
-  console.log(process.env.DEV_MODE)
+  const areaId = 31422;
+  console.log(process.env.DEV_MODE);
 
   onMount(async () => {
     await fetch(
       `${
         process.env.DEV_MODE ? "http://localhost:3000" : ""
-      }/api/concerts`
+      }/api/concerts?areaId=${areaId}`
     )
       .then((r) => r.json())
       .then((data) => {

@@ -2,13 +2,12 @@ const fetch = require("node-fetch");
 const { URLSearchParams } = require("url");
 
 export default async (request, response) => {
-  // TODO: Take areaID as a request parameter, select area in UI
-  const areaID = 31422;
+  const areaId = request.query["areaId"];
 
   // TODO: Fetch all pages
   const res = await fetch(
     "https://api.songkick.com/api/3.0/metro_areas/" +
-      areaID +
+      areaId +
       "/calendar.json?" +
       new URLSearchParams({
         apikey: process.env.SONGKICK_API_KEY,
