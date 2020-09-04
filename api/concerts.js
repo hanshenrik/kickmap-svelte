@@ -1,9 +1,7 @@
-import { NowRequest, NowResponse } from "@vercel/node";
-
 const fetch = require("node-fetch");
 const { URLSearchParams } = require("url");
 
-export default async (request: NowRequest, response: NowResponse) => {
+export default async (request, response) => {
   // TODO: Take areaID as a request parameter, select area in UI
   const areaID = 31422;
 
