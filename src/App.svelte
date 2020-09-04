@@ -2,9 +2,14 @@
   import { onMount } from "svelte";
 
   export let name: string;
+  console.log(process.env.DEV_MODE)
 
   onMount(async () => {
-    await fetch(`${process.env.VERCEL_URL}/api/concerts`)
+    await fetch(
+      `${
+        process.env.DEV_MODE ? "http://localhost:3000" : ""
+      }/api/concerts`
+    )
       .then((r) => r.json())
       .then((data) => {
         console.log(data);

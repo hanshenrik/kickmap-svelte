@@ -69,7 +69,7 @@ export default {
     commonjs(),
     typescript({ sourceMap: !production }),
     injectProcessEnv({
-      VERCEL_URL: process.env.VERCEL_URL || "http://localhost:3000",
+      DEV_MODE: process.env.ROLLUP_WATCH,
       MAPBOX_ACCESS_TOKEN: process.env.MAPBOX_ACCESS_TOKEN,
     }),
 
