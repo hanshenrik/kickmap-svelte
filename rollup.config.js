@@ -5,6 +5,10 @@ import livereload from "rollup-plugin-livereload";
 import { terser } from "rollup-plugin-terser";
 import sveltePreprocess from "svelte-preprocess";
 import typescript from "@rollup/plugin-typescript";
+import injectProcessEnv from "rollup-plugin-inject-process-env";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -64,6 +68,10 @@ export default {
     }),
     commonjs(),
     typescript({ sourceMap: !production }),
+    injectProcessEnv({
+      VERCEL_URL: process.env.VERCEL_URL || "http://localhost:3000",
+      MAPBOX_ACCESS_TOKEN: process.env.MAPBOX_ACCESS_TOKEN,
+    }),
 
     // In dev mode, call `npm run start` once
     // the bundle has been generated
