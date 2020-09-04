@@ -2,8 +2,12 @@
   import { onMount } from "svelte";
 
   export let name: string;
+  var concertsCollection = {
+    type: "FeatureCollection",
+    features: [],
+  };
+
   const areaId = 31422;
-  console.log(process.env.DEV_MODE);
 
   onMount(async () => {
     await fetch(
@@ -12,8 +16,46 @@
       }/api/concerts?areaId=${areaId}`
     )
       .then((r) => r.json())
-      .then((data) => {
-        console.log(data);
+      .then((concerts) => {
+        console.log(concerts);
+        concerts.forEach((concert) => {
+          console.log(concert);
+          // Create a GeoJson feature so we can represent the concert on the map
+          const feature = {
+            type: "Feature",
+            properties: {
+              id: concert.id,
+              title: concert.displayName,
+              date: concert.start.date,
+              popularity: concert.popularity,
+              artist: "",
+              venue: concert.venue.displayName,
+              imageURL: "",
+              songkickURL: concert.uri,
+            },
+            geometry: {
+              type: "Point",
+              coordinates: [concert.location.lng, concert.location.lat],
+            },
+          };
+
+          if (concert.performance[0]) {
+            feature.properties.artist = concert.performance[0].displayName;
+            feature.properties.imageURL =
+              "http://images.sk-static.com/images/media/profile_images/artists/" +
+              concert.performance[0].artist.id +
+              "/huge_avatar";
+          }
+
+          concertsCollection.features.push(feature);
+          // Create some HTML to show info about the concert in the list
+          // addConcertSection(feature);
+        });
+
+        // addSources();
+        // addLayers();
+        // console.log("Starting playback");
+        // playback(0);
       });
   });
 </script>
