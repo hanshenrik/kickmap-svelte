@@ -19,5 +19,5 @@ export const isElementOnScreen = (id: string): boolean => {
  * @param max
  * @returns a random number between min (inclusive) and max (exclusive)
  */
-export const getRandomInt = (min: number, max: number): number =>
+export const getRandomNumber = (min: number, max: number): number =>
   Math.random() * (max - min) + min;
