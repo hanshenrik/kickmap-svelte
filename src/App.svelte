@@ -124,7 +124,7 @@
   }
 
   .songkick-attribution {
-    max-width: 200px;
+    max-width: 120px;
   }
 </style>
 
