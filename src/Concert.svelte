@@ -1,6 +1,10 @@
 <script lang="ts">
-  import MapMarker from "svelte-material-icons/MapMarker.svelte";
-  import Calendar from "svelte-material-icons/Calendar.svelte";
+  import Icon from "svelte-awesome";
+  import { faCalendar } from "@fortawesome/free-regular-svg-icons";
+  import {
+    faMapMarkerAlt,
+    faMicrophone,
+  } from "@fortawesome/free-solid-svg-icons";
 
   import type { Feature } from "./types";
 
@@ -10,7 +14,7 @@
 <style>
   .concert {
     text-align: left;
-    padding: 0.5rem;
+    padding: 1rem;
     border-bottom: 1px solid #ccc;
   }
   .concert-content {
@@ -27,30 +31,48 @@
     height: 100px;
     width: 100px;
     border-radius: 50%;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+  .artist-img:hover {
+    transform: scale(1.025);
+  }
+  .artist-img.placeholder {
+    background-color: lightyellow;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
   }
 </style>
 
 <div class="concert">
-  <h3>{concert && concert.properties.title}</h3>
+  <h3>{concert.properties.title}</h3>
   <div class="concert-content">
-    <a href={concert && concert.properties.songkickURL} target="_blank">
-      <img
-        src={concert && concert.properties.imageURL}
-        class="artist-img"
-        alt={`Bilde av ${concert && concert.properties.title}`} />
+    <a href={concert.properties.songkickURL} target="_blank">
+      {#if concert.properties.imageURL}
+        <img
+          src={concert.properties.imageURL}
+          class="artist-img"
+          alt={`Bilde av ${concert.properties.title}`} />
+      {:else}
+        <div class="artist-img placeholder">
+          <Icon data={faMicrophone} scale="2" />
+        </div>
+      {/if}
     </a>
     <div class="concert-info">
       <div>
-        <MapMarker />
-        {concert && concert.properties.venue}
+        <Icon data={faMapMarkerAlt} />
+
+        {concert.properties.venue}
       </div>
       <div>
-        <Calendar />
-        {concert && concert.properties.date}
+        <Icon data={faCalendar} />
+        {concert.properties.date}
       </div>
 
-      <a href={concert && concert.properties.songkickURL} target="_blank">Mer
-        info</a>
+      <a href={concert.properties.songkickURL} target="_blank">Mer info</a>
     </div>
   </div>
 </div>

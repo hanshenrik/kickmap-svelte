@@ -28,10 +28,12 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
+    "@fortawesome/free-regular-svg-icons": "^5.15.1",
+    "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@now/build-utils": "^2.5.1",
     "@sveltejs/svelte-virtual-list": "^3.0.1",
     "node-fetch": "^2.6.1",
     "sirv-cli": "^1.0.0",
-    "svelte-material-icons": "^1.0.3"
+    "svelte-awesome": "^2.3.0"
   }
 }
