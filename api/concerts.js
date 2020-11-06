@@ -15,7 +15,7 @@ export default async (request, response) => {
     response.status(200).send(fixtures);
   } else {
     try {
-      while (morePagesAvailable || currentPage > maxPages) {
+      while (morePagesAvailable && currentPage < maxPages) {
         currentPage++;
 
         const res = await fetch(
@@ -46,8 +46,8 @@ export default async (request, response) => {
       }
 
       response.status(200).send(allData);
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error(error);
       response.status(500).send({ error: "Noe gikk ille gærli!" });
     }
   }
