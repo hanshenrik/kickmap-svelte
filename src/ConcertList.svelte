@@ -15,8 +15,9 @@
 </style>
 
 <div class="container">
-  <VirtualList items={concerts} let:item>
-    <Concert concert={item} />
-  </VirtualList>
+  {#if concerts.length > 0}
+    <VirtualList items={concerts} let:item>
+      <Concert concert={item} />
+    </VirtualList>
+  {:else}Henter data...{/if}
 </div>
-
