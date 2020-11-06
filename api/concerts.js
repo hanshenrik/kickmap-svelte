@@ -6,6 +6,7 @@ export default async (request, response) => {
 
   let allData = [];
   let morePagesAvailable = true;
+  let maxPages = 10;
   let currentPage = 0;
 
   if (process.env.NODE_ENV == "development") {
@@ -13,7 +14,7 @@ export default async (request, response) => {
     const fixtures = require("./concerts-fixture.json");
     response.status(200).send(fixtures);
   } else {
-    while (morePagesAvailable) {
+    while (morePagesAvailable || currentPage > maxPages) {
       currentPage++;
 
       const res = await fetch(
