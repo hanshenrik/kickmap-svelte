@@ -10,6 +10,7 @@
 <style>
   .container {
     min-height: 200px;
+    width: 100%;
     height: calc(100vh - 12rem);
   }
 </style>
