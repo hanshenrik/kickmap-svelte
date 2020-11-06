@@ -41,3 +41,8 @@ export type NewLocationEvent = {
     coordinates: [number, number];
   };
 };
+
+export type ConcertsCollection = {
+  type: string;
+  features: (Feature | null)[];
+};

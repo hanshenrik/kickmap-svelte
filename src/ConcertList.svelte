@@ -1,21 +1,22 @@
 <script lang="ts">
+  import VirtualList from "@sveltejs/svelte-virtual-list";
+  import Concert from "./Concert.svelte";
+
   import type { Feature } from "./types";
-  export let concerts: [Feature];
+
+  export let concerts: Feature[];
 </script>
 
 <style>
+  .container {
+    min-height: 200px;
+    height: calc(100vh - 12rem);
+  }
 </style>
 
-<div id="concerts">
-  {#each concerts as concert}
-    <div id={concert.properties.id} class="concert">
-      {concert.properties.title}
-    </div>
-  {:else}
-    <p>Loading...</p>
-  {/each}
-  <img
-    alt="Powered by Songkick"
-    class="songkick-attribution"
-    src="images/powered-by-songkick-black.svg" />
+<div class="container">
+  <VirtualList items={concerts} let:item>
+    <Concert concert={item} />
+  </VirtualList>
 </div>
+

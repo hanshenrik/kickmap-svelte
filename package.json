@@ -28,9 +28,10 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
-    "@jailbreak-paris/svelte-mapbox-gl": "^0.1.3",
     "@now/build-utils": "^2.5.1",
+    "@sveltejs/svelte-virtual-list": "^3.0.1",
     "node-fetch": "^2.6.1",
-    "sirv-cli": "^1.0.0"
+    "sirv-cli": "^1.0.0",
+    "svelte-material-icons": "^1.0.3"
   }
 }

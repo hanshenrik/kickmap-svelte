@@ -1,14 +1,20 @@
 <script lang="ts">
   import { onMount } from "svelte";
+
   import ConcertList from "./ConcertList.svelte";
   import Map from "./Map.svelte";
   import Geocoder from "./Geocoder.svelte";
-  import type { Concert, Feature, NewLocationEvent } from "./types";
+  import type {
+    Concert,
+    ConcertsCollection,
+    Feature,
+    NewLocationEvent,
+  } from "./types";
   import { createApiUrl, getRandomNumber } from "./utils";
 
-  let map;
+  let map: any | null;
 
-  var concertsCollection = {
+  let concertsCollection: ConcertsCollection = {
     type: "FeatureCollection",
     features: [],
   };
@@ -47,15 +53,13 @@
 
           if (concert.performance[0]) {
             feature.properties.artist = concert.performance[0].displayName;
-            feature.properties.imageURL =
-              "http://images.sk-static.com/images/media/profile_images/artists/" +
-              concert.performance[0].artist.id +
-              "/huge_avatar";
+            feature.properties.imageURL = `http://images.sk-static.com/images/media/profile_images/artists/${concert.performance[0].artist.id}/huge_avatar`;
           }
 
-          concertsCollection.features.push(feature);
-          // Create some HTML to show info about the concert in the list
-          // addConcertSection(feature);
+          concertsCollection = {
+            ...concertsCollection,
+            features: [...concertsCollection.features, feature],
+          };
         });
 
         // addSources();
@@ -94,23 +98,29 @@
     grid-template-rows: 2fr 1fr;
     width: 100%;
     height: 100%;
+    max-height: none;
     text-align: center;
     margin: 0;
   }
-
-  aside {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem 0;
-  }
-
   @media (min-width: 640px) {
     main {
       grid-template-columns: 2fr 1fr;
       grid-template-rows: 1fr;
       max-width: none;
     }
+  }
+
+  aside {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0;
+  }
+
+
+  .songkick-attribution {
+    max-width: 200px;
   }
 </style>
 
@@ -119,6 +129,10 @@
 
   <aside>
     <Geocoder on:newLocation={handleNewLocation} />
-    <!-- <ConcertList concerts={concertsCollection.features} /> -->
+    <ConcertList concerts={concertsCollection.features} />
+    <img
+      alt="Powered by Songkick"
+      class="songkick-attribution"
+      src="images/powered-by-songkick-black.svg" />
   </aside>
 </main>
