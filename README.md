@@ -11,6 +11,8 @@ $ vercel dev // Serverless API
 $ npm run dev // Frontend
 ```
 
+> You might need to run `vercel login` if your token is expired.
+
 # Deployment
 
 Commits on master are automatically deployed with Vercel.
