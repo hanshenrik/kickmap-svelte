@@ -21,3 +21,10 @@ export const isElementOnScreen = (id: string): boolean => {
  */
 export const getRandomNumber = (min: number, max: number): number =>
   Math.random() * (max - min) + min;
+
+/**
+ *
+ * @returns the correct API URL given the environment
+ */
+export const createApiUrl = (devMode: boolean, path: string): string =>
+  `${devMode ? "http://localhost:3000" : ""}${path}`;

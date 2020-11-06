@@ -9,7 +9,7 @@ export default async (request, response) => {
   let currentPage = 0;
 
   if (process.env.NODE_ENV == "development") {
-    console.log("NB! Returning fixtures since development mode");
+    console.log("DEV_MODE: Returning concert fixtures");
     const fixtures = require("./concerts-fixture.json");
     response.status(200).send(fixtures);
   } else {

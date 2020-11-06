@@ -4,28 +4,22 @@
   import Map from "./Map.svelte";
   import Geocoder from "./Geocoder.svelte";
   import type { Concert, Feature } from "./types";
+  import { createApiUrl } from "./utils";
 
-  let map: any;
+  let map;
+  let areaId;
 
   var concertsCollection = {
     type: "FeatureCollection",
     features: [],
   };
 
-  // TODO: Get metro area ID by using lat,lng here:
-  // https://api.songkick.com/api/3.0/search/locations.json?location=geo:{lat,lng}&apikey={your_api_key}
-  const areaId = 31422;
-
   onMount(async () => {
-    await fetch(
-      `${
-        process.env.DEV_MODE ? "http://localhost:3000" : ""
-      }/api/concerts?areaId=${areaId}`
-    )
+    await fetch(createApiUrl(process.env.DEV_MODE, `/api/concerts?areaId=${areaId}`))
       .then((r) => r.json())
       .then((concerts: [Concert]) => {
         concerts.forEach((concert) => {
-          console.log(concert);
+          // console.log(concert);
           // Create a GeoJson feature so we can represent the concert on the map
           const feature = {
             type: "Feature",
@@ -97,7 +91,7 @@
   <Map bind:map />
 
   <aside>
-    <Geocoder {map} />
+    <Geocoder bind:areaId {map} />
     <!-- <ConcertList concerts={concertsCollection.features} /> -->
   </aside>
 </main>
