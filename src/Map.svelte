@@ -27,7 +27,7 @@
 <div class="map-wrapper">
   <Map
     accessToken={process.env.MAPBOX_ACCESS_TOKEN}
-    style="mapbox://styles/mapbox/dark-v10"
+    style="mapbox://styles/mapbox/light-v10"
     bind:this={map}
     on:recentre={(e) => console.log(e.detail.center.lat, e.detail.center.lng)}
     options={{ scrollZoom: true }}>
