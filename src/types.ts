@@ -44,5 +44,5 @@ export type NewLocationEvent = {
 
 export type ConcertsCollection = {
   type: string;
-  features: (Feature | null)[];
+  features: Feature[];
 };
