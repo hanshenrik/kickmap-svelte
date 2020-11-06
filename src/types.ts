@@ -35,3 +35,9 @@ export type Feature = {
     coordinates: [number, number];
   };
 };
+
+export type NewLocationEvent = {
+  detail: {
+    coordinates: [number, number];
+  };
+};

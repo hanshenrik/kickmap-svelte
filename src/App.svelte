@@ -3,11 +3,10 @@
   import ConcertList from "./ConcertList.svelte";
   import Map from "./Map.svelte";
   import Geocoder from "./Geocoder.svelte";
-  import type { Concert, Feature } from "./types";
-  import { createApiUrl } from "./utils";
+  import type { Concert, Feature, NewLocationEvent } from "./types";
+  import { createApiUrl, getRandomNumber } from "./utils";
 
   let map;
-  let areaId;
 
   var concertsCollection = {
     type: "FeatureCollection",
@@ -15,7 +14,14 @@
   };
 
   onMount(async () => {
-    await fetch(createApiUrl(process.env.DEV_MODE, `/api/concerts?areaId=${areaId}`))
+    const osloLngLat: [number, number] = [10.75278, 59.91111];
+    handleNewLocation({ detail: { coordinates: osloLngLat } });
+  });
+
+  async function getConcerts(areaId) {
+    await fetch(
+      createApiUrl(process.env.DEV_MODE, `/api/concerts?areaId=${areaId}`)
+    )
       .then((r) => r.json())
       .then((concerts: [Concert]) => {
         concerts.forEach((concert) => {
@@ -57,7 +63,28 @@
         // console.log("Starting playback");
         // playback(0);
       });
-  });
+  }
+
+  const handleNewLocation = (e: NewLocationEvent) => {
+    flyToLatLng(e.detail.coordinates);
+
+    const [lng, lat] = e.detail.coordinates;
+
+    fetch(createApiUrl(process.env.DEV_MODE, `/api/area?lat=${lat}&lng=${lng}`))
+      .then((r) => r.json())
+      .then((metroAreaId) => getConcerts(metroAreaId));
+  };
+
+  const flyToLatLng = (coordinates) => {
+    map.flyTo({
+      center: coordinates,
+      speed: getRandomNumber(0.5, 1), // Speed of the flight
+      curve: getRandomNumber(1, 1.5), // How far 'out' we should zoom on the flight from A to B
+      zoom: getRandomNumber(10, 14), // Set a random zoom level for effect
+      pitch: getRandomNumber(0, 61), // Pitch for coolness
+      bearing: getRandomNumber(-10, 10), // Tilt north direction slightly for even more coolness!
+    });
+  };
 </script>
 
 <style>
@@ -88,10 +115,10 @@
 </style>
 
 <main>
-  <Map bind:map />
+  <Map bind:map on:newLocation={handleNewLocation} />
 
   <aside>
-    <Geocoder bind:areaId {map} />
+    <Geocoder on:newLocation={handleNewLocation} />
     <!-- <ConcertList concerts={concertsCollection.features} /> -->
   </aside>
 </main>
