@@ -1,7 +1,9 @@
 <script lang="ts">
   import VirtualList from "@sveltejs/svelte-virtual-list";
-  import Concert from "./Concert.svelte";
+  import Icon from "svelte-awesome";
+  import { faCompactDisc } from "@fortawesome/free-solid-svg-icons";
 
+  import Concert from "./Concert.svelte";
   import type { Feature } from "./types";
 
   export let concerts: Feature[];
@@ -15,6 +17,9 @@
     border-bottom: 2px solid #ccc;
     height: calc(100vh - 4rem - 38px - 44px);
   }
+  .loading-icon {
+    padding: 1rem;
+  }
 </style>
 
 <div class="container">
@@ -22,5 +27,9 @@
     <VirtualList items={concerts} let:item>
       <Concert concert={item} />
     </VirtualList>
-  {:else}Henter data...{/if}
+  {:else}
+    <div class="loading-icon">
+      <Icon data={faCompactDisc} scale="4" spin />
+    </div>
+  {/if}
 </div>
