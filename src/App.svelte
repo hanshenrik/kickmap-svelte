@@ -30,37 +30,37 @@
     )
       .then((r) => r.json())
       .then((concerts: [Concert]) => {
-        concerts.forEach((concert) => {
-          // console.log(concert);
-          // Create a GeoJson feature so we can represent the concert on the map
-          const feature = {
-            type: "Feature",
-            properties: {
-              id: concert.id,
-              title: concert.displayName,
-              date: concert.start.date,
-              popularity: concert.popularity,
-              artist: "",
-              venue: concert.venue.displayName,
-              imageURL: "",
-              songkickURL: concert.uri,
-            },
-            geometry: {
-              type: "Point",
-              coordinates: [concert.location.lng, concert.location.lat],
-            },
-          };
+        concertsCollection = {
+          ...concertsCollection,
+          features: concerts.map((concert) => {
+            // console.log(concert);
+            // Create a GeoJson feature so we can represent the concert on the map
+            const feature = {
+              type: "Feature",
+              properties: {
+                id: concert.id,
+                title: concert.displayName,
+                date: concert.start.date,
+                popularity: concert.popularity,
+                artist: "",
+                venue: concert.venue.displayName,
+                imageURL: "",
+                songkickURL: concert.uri,
+              },
+              geometry: {
+                type: "Point",
+                coordinates: [concert.location.lng, concert.location.lat],
+              },
+            };
 
-          if (concert.performance[0]) {
-            feature.properties.artist = concert.performance[0].displayName;
-            feature.properties.imageURL = `http://images.sk-static.com/images/media/profile_images/artists/${concert.performance[0].artist.id}/huge_avatar`;
-          }
+            if (concert.performance[0]) {
+              feature.properties.artist = concert.performance[0].displayName;
+              feature.properties.imageURL = `http://images.sk-static.com/images/media/profile_images/artists/${concert.performance[0].artist.id}/huge_avatar`;
+            }
 
-          concertsCollection = {
-            ...concertsCollection,
-            features: [...concertsCollection.features, feature],
-          };
-        });
+            return feature;
+          }),
+        };
 
         // addSources();
         // addLayers();
@@ -70,6 +70,11 @@
   }
 
   const handleNewLocation = (e: NewLocationEvent) => {
+    concertsCollection = {
+      ...concertsCollection,
+      features: [],
+    };
+
     flyToLatLng(e.detail.coordinates);
 
     const [lng, lat] = e.detail.coordinates;
@@ -117,7 +122,6 @@
     align-items: center;
     padding: 1rem 0;
   }
-
 
   .songkick-attribution {
     max-width: 200px;
