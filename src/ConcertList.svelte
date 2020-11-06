@@ -11,6 +11,8 @@
   .container {
     min-height: 200px;
     width: 100%;
+    border-top: 2px solid #ccc;
+    border-bottom: 2px solid #ccc;
     height: calc(100vh - 12rem);
   }
 </style>
