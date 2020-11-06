@@ -28,7 +28,7 @@
     style="mapbox://styles/mapbox/dark-v10"
     bind:this={map}
     on:recentre={(e) => console.log(e.detail.center.lat, e.detail.center.lng)}
-    options={{ scrollZoom: false }}>
+    options={{ scrollZoom: true }}>
     <Marker
       lat={10.1}
       lng={73.0}
