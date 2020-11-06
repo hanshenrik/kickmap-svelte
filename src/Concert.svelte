@@ -12,14 +12,21 @@
 </script>
 
 <style>
+  h3 {
+    margin-top: 0;
+  }
+
   .concert {
-    text-align: left;
     padding: 1rem;
-    border-bottom: 1px solid #ccc;
+    border-radius: 2px;
+    margin-bottom: 1rem;
+    background-color: white;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
   }
   .concert-content {
     display: flex;
     align-content: center;
+    align-items: center;
     gap: 1rem;
   }
   .concert-info {
@@ -46,7 +53,7 @@
   }
 </style>
 
-<div class="concert">
+<div id={`concert-${concert.properties.id}`} class="concert">
   <h3>{concert.properties.title}</h3>
   <div class="concert-content">
     <a href={concert.properties.songkickURL} target="_blank">

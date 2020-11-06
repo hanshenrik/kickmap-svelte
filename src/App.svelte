@@ -98,24 +98,18 @@
 
 <style>
   main {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 2fr 1fr;
     width: 100%;
     height: 100%;
-    max-height: none;
-    text-align: center;
     margin: 0;
-  }
-  @media (min-width: 640px) {
-    main {
-      grid-template-columns: 2fr 1fr;
-      grid-template-rows: 1fr;
-      max-width: none;
-    }
   }
 
   aside {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    width: 400px;
+    max-width: 100%;
     display: flex;
     gap: 1rem;
     flex-direction: column;

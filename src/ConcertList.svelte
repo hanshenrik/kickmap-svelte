@@ -16,9 +16,20 @@
     border-top: 2px solid #ccc;
     border-bottom: 2px solid #ccc;
     height: calc(100vh - 4rem - 38px - 44px);
+    display: flex;
+    justify-content: center;
   }
+
   .loading-icon {
     padding: 1rem;
+  }
+  :global(svelte-virtual-list-row) {
+    overflow: visible !important;
+  }
+
+  :global(svelte-virtual-list-contents) {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 </style>
 
