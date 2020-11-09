@@ -3,10 +3,10 @@ const { URLSearchParams } = require("url");
 
 export default async (request, response) => {
   const areaId = request.query["areaId"];
+  const maxPages = 10;
 
-  let allData = [];
   let morePagesAvailable = true;
-  let maxPages = 10;
+  let allData = [];
   let currentPage = 0;
 
   if (process.env.NODE_ENV == "development") {
@@ -39,7 +39,7 @@ export default async (request, response) => {
         const totalPages = Math.ceil(totalEntries / perPage);
 
         if (events) {
-          events.forEach((e) => allData.unshift(e));
+          allData = [...allData, ...events];
         }
 
         morePagesAvailable = currentPage < totalPages;
