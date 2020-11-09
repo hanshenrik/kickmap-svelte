@@ -76,7 +76,7 @@
       </div>
       <div>
         <Icon data={faCalendar} />
-        {concert.properties.date}
+        {new Intl.DateTimeFormat('nb-NO').format(new Date(concert.properties.date))}
       </div>
 
       <a href={concert.properties.songkickURL} target="_blank">Mer info</a>
