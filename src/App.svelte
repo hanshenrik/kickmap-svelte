@@ -4,12 +4,7 @@
   import ConcertList from "./ConcertList.svelte";
   import Map from "./Map.svelte";
   import Geocoder from "./Geocoder.svelte";
-  import type {
-    Concert,
-    ConcertsCollection,
-    Feature,
-    NewLocationEvent,
-  } from "./types";
+  import type { Concert, ConcertsCollection, NewLocationEvent } from "./types";
   import { createApiUrl, getRandomNumber } from "./utils";
 
   let map: any | null;
@@ -40,7 +35,7 @@
               properties: {
                 id: concert.id,
                 title: concert.displayName,
-                date: concert.start.date,
+                datetime: concert.start.datetime,
                 popularity: concert.popularity,
                 artist: "",
                 venue: concert.venue.displayName,
@@ -108,7 +103,7 @@
     top: 0;
     right: 0;
     z-index: 1;
-    width: 400px;
+    width: 300px;
     max-width: 100%;
     display: flex;
     gap: 1rem;

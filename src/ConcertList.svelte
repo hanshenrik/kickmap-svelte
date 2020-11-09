@@ -23,6 +23,9 @@
   .loading-icon {
     padding: 1rem;
   }
+  :global(svelte-virtual-list-viewport) {
+    width: 100%;
+  }
   :global(svelte-virtual-list-row) {
     overflow: visible !important;
   }

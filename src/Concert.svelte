@@ -54,7 +54,7 @@
 </style>
 
 <div id={`concert-${concert.properties.id}`} class="concert">
-  <h3>{concert.properties.title}</h3>
+  <h3>{concert.properties.artist || concert.properties.title}</h3>
   <div class="concert-content">
     <a href={concert.properties.songkickURL} target="_blank">
       {#if concert.properties.imageURL}
@@ -76,7 +76,7 @@
       </div>
       <div>
         <Icon data={faCalendar} />
-        {new Intl.DateTimeFormat('nb-NO').format(new Date(concert.properties.date))}
+        {new Intl.DateTimeFormat('nb-NO').format(new Date(concert.properties.datetime))}
       </div>
 
       <a href={concert.properties.songkickURL} target="_blank">Mer info</a>
