@@ -25,6 +25,7 @@ export default async (request, response) => {
             new URLSearchParams({
               apikey: process.env.SONGKICK_API_KEY,
               page: currentPage,
+              min_date: new Date().toISOString().slice(0, 10),
             })
         );
 
