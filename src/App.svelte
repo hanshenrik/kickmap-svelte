@@ -103,12 +103,11 @@
     top: 0;
     right: 0;
     z-index: 1;
-    width: 300px;
+    width: 330px;
     max-width: 100%;
-    display: flex;
-    gap: 1rem;
-    flex-direction: column;
-    align-items: center;
+    display: grid;
+    grid-gap: 1rem;
+    justify-items: center;
     padding: 1rem 0;
   }
 

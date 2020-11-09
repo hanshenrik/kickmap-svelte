@@ -4,6 +4,7 @@
   import {
     faMapMarkerAlt,
     faMicrophone,
+    faInfoCircle,
   } from "@fortawesome/free-solid-svg-icons";
 
   import type { Feature } from "./types";
@@ -24,15 +25,16 @@
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
   }
   .concert-content {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
     align-content: center;
     align-items: center;
-    gap: 1rem;
+    grid-gap: 1rem;
   }
   .concert-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    display: grid;
+    grid-template-columns: 1rem auto;
+    grid-gap: 0.5rem;
   }
   .artist-img {
     height: 100px;
@@ -69,16 +71,11 @@
       {/if}
     </a>
     <div class="concert-info">
-      <div>
-        <Icon data={faMapMarkerAlt} />
-
-        {concert.properties.venue}
-      </div>
-      <div>
-        <Icon data={faCalendar} />
-        {new Intl.DateTimeFormat('nb-NO').format(new Date(concert.properties.datetime))}
-      </div>
-
+      <Icon data={faMapMarkerAlt} />
+      {concert.properties.venue}
+      <Icon data={faCalendar} />
+      {new Intl.DateTimeFormat('nb-NO').format(new Date(concert.properties.datetime))}
+      <Icon data={faInfoCircle} />
       <a href={concert.properties.songkickURL} target="_blank">Mer info</a>
     </div>
   </div>
