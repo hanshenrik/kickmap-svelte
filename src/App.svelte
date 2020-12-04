@@ -82,8 +82,6 @@
       features: [],
     };
 
-    flyToLatLng(e.detail.coordinates);
-
     const [lng, lat] = e.detail.coordinates;
 
     fetch(createApiUrl(process.env.DEV_MODE, `/api/area?lat=${lat}&lng=${lng}`))
