@@ -17,12 +17,21 @@
     border-top: 2px solid #ccc;
     border-bottom: 2px solid #ccc;
     height: calc(100vh - 4rem - 38px - 44px);
+    overflow-y: scroll;
+    overflow-x: visible;
+  }
+
+  .concert-list {
     display: flex;
     justify-content: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    flex-direction: column;
   }
 
   .loading-icon {
     padding: 1rem;
+    align-self: center;
   }
   :global(svelte-virtual-list-viewport) {
     width: 100%;
@@ -32,19 +41,21 @@
   }
 
   :global(svelte-virtual-list-contents) {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 </style>
 
 <div class="container">
-  {#if concerts.length > 0}
-    <VirtualList items={concerts} let:item>
-      <Concert concert={item} activeConcertId={activeConcertId} />
-    </VirtualList>
-  {:else}
-    <div class="loading-icon">
-      <Icon data={faCompactDisc} scale="4" spin />
-    </div>
-  {/if}
+  <div class="concert-list">
+    {#if concerts.length > 0}
+      {#each concerts as concert}
+        <Concert {concert} {activeConcertId} />
+      {/each}
+    {:else}
+      <div class="loading-icon">
+        <Icon data={faCompactDisc} scale="4" spin />
+      </div>
+    {/if}
+  </div>
 </div>

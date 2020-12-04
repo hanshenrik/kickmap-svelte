@@ -28,7 +28,7 @@
   }
   .concert.active {
     background-color: lightyellow;
-    transform: scale(1.05);
+    transform: scale(1.075);
   }
   .concert-content {
     display: grid;
@@ -61,7 +61,10 @@
   }
 </style>
 
-<div id={`concert-${concert.properties.id}`} class="concert" class:active="{activeConcertId === concert.properties.id}">
+<div
+  id={`concert-${concert.properties.id}`}
+  class="concert"
+  class:active={activeConcertId === concert.properties.id}>
   <h3>{concert.properties.artist || concert.properties.title}</h3>
   <div class="concert-content">
     <a href={concert.properties.songkickURL} target="_blank">
