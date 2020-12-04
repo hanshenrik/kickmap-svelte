@@ -117,8 +117,8 @@
         block: "center",
       });
   };
+
   const handleClickOnConcert = (e) => {
-    const mapboxMap = map.getMap();
     const {
       detail: { concert },
     } = e;
@@ -127,7 +127,7 @@
 
     isPlaying = false;
     window.clearTimeout(playbackTimeoutFunction);
-    mapboxMap.panTo(concert.geometry.coordinates);
+    flyToLatLng(concert.geometry.coordinates);
   };
 
   const handleTogglePlayback = () => {
@@ -196,20 +196,11 @@
     display: flex;
     justify-content: space-around;
   }
-
-  .button-without-styling {
-    background: none;
-    border: none;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
+  .playback-button {
     transition: color 0.2s ease-in-out;
   }
-  .button-without-styling:hover {
+  .playback-button:hover {
     color: #51bbd6;
-  }
-  .button-without-styling:active {
-    background: none;
   }
 </style>
 
@@ -224,9 +215,12 @@
 
   <aside>
     <Geocoder on:newLocation={handleNewLocation} />
-    <ConcertList concerts={concertsCollection.features} {activeConcertId} />
+    <ConcertList
+      concerts={concertsCollection.features}
+      {activeConcertId}
+      on:clickOnConcert={handleClickOnConcert} />
     <div class="songkick-logo-and-play-button">
-      <button class="button-without-styling" on:click={handleTogglePlayback}>
+      <button class="playback-button" on:click={handleTogglePlayback}>
         <Icon
           data={isPlaying ? faStopCircle : faPlayCircle}
           spin={isPlaying}

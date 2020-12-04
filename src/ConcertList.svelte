@@ -1,5 +1,6 @@
 <script lang="ts">
   import VirtualList from "@sveltejs/svelte-virtual-list";
+  import { createEventDispatcher } from "svelte";
   import Icon from "svelte-awesome";
   import { faCompactDisc } from "@fortawesome/free-solid-svg-icons";
 
@@ -8,6 +9,11 @@
 
   export let concerts: Feature[];
   export let activeConcertId: string;
+
+  const dispatch = createEventDispatcher();
+
+  const handleConcertClick = (concert) =>
+    dispatch("clickOnConcert", { concert });
 </script>
 
 <style>
@@ -50,7 +56,11 @@
   <div class="concert-list">
     {#if concerts.length > 0}
       {#each concerts as concert}
-        <Concert {concert} {activeConcertId} />
+        <button
+          class="concert-button"
+          on:click={() => handleConcertClick(concert)}>
+          <Concert {concert} {activeConcertId} />
+        </button>
       {/each}
     {:else}
       <div class="loading-icon">

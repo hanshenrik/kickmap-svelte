@@ -27,7 +27,7 @@
     transition: transform 0.5s ease-in-out;
   }
   .concert.active {
-    background-color: lightyellow;
+    background-color: #e3f2fd;
     transform: scale(1.075);
   }
   .concert-content {
@@ -47,13 +47,8 @@
     width: 100px;
     border-radius: 50%;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  }
-  .artist-img:hover {
-    transform: scale(1.025);
   }
   .artist-img.placeholder {
-    background-color: lightyellow;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -67,18 +62,16 @@
   class:active={activeConcertId === concert.properties.id}>
   <h3>{concert.properties.artist || concert.properties.title}</h3>
   <div class="concert-content">
-    <a href={concert.properties.songkickURL} target="_blank">
-      {#if concert.properties.imageURL}
-        <img
-          src={concert.properties.imageURL}
-          class="artist-img"
-          alt={`Bilde av ${concert.properties.title}`} />
-      {:else}
-        <div class="artist-img placeholder">
-          <Icon data={faMicrophone} scale="2" />
-        </div>
-      {/if}
-    </a>
+    {#if concert.properties.imageURL}
+      <img
+        src={concert.properties.imageURL}
+        class="artist-img"
+        alt={`Bilde av ${concert.properties.title}`} />
+    {:else}
+      <div class="artist-img placeholder">
+        <Icon data={faMicrophone} scale="2" />
+      </div>
+    {/if}
     <div class="concert-info">
       <Icon data={faMapMarkerAlt} />
       {concert.properties.venue}
