@@ -4,6 +4,7 @@
   import ConcertList from "./ConcertList.svelte";
   import Map from "./Map.svelte";
   import Geocoder from "./Geocoder.svelte";
+  import ConcertElement from "./Concert.svelte";
   import type { Concert, ConcertsCollection, NewLocationEvent } from "./types";
   import { createApiUrl, getRandomNumber } from "./utils";
 
@@ -56,6 +57,132 @@
             return feature;
           }),
         };
+
+        const mapboxMap = map.getMap();
+        const mapbox = map.getMapbox();
+
+        // TODO: Improve initing to make sure map is ready. Extract in separate function etc.
+        if (!mapboxMap.getSource("concerts")) {
+          // Add a new source from our GeoJSON data and set the
+          // 'cluster' option to true. GL-JS will add the point_count property to your source data.
+          mapboxMap.addSource("concerts", {
+            type: "geojson",
+            data: { type: "FeatureCollection", features: [] },
+            cluster: true,
+            clusterMaxZoom: 14, // Max zoom to cluster points on
+            clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
+          });
+
+          mapboxMap.addLayer({
+            id: "clusters",
+            type: "circle",
+            source: "concerts",
+            filter: ["has", "point_count"],
+            paint: {
+              // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+              // with three steps to implement three types of circles:
+              //   * Blue, 20px circles when point count is less than 100
+              //   * Yellow, 30px circles when point count is between 100 and 750
+              //   * Pink, 40px circles when point count is greater than or equal to 750
+              "circle-color": [
+                "step",
+                ["get", "point_count"],
+                "#51bbd6",
+                100,
+                "#f1f075",
+                750,
+                "#f28cb1",
+              ],
+              "circle-radius": [
+                "step",
+                ["get", "point_count"],
+                20,
+                100,
+                30,
+                750,
+                40,
+              ],
+            },
+          });
+          mapboxMap.addLayer({
+            id: "cluster-count",
+            type: "symbol",
+            source: "concerts",
+            filter: ["has", "point_count"],
+            layout: {
+              "text-field": "{point_count_abbreviated}",
+              "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+              "text-size": 12,
+            },
+          });
+          mapboxMap.addLayer({
+            id: "unclustered-point",
+            type: "circle",
+            source: "concerts",
+            filter: ["!", ["has", "point_count"]],
+            paint: {
+              "circle-color": "#11b4da",
+              "circle-radius": 4,
+              "circle-stroke-width": 1,
+              "circle-stroke-color": "#fff",
+            },
+          });
+          mapboxMap.on("click", "clusters", function (e) {
+            var features = mapboxMap.queryRenderedFeatures(e.point, {
+              layers: ["clusters"],
+            });
+            var clusterId = features[0].properties.cluster_id;
+            mapboxMap
+              .getSource("concerts")
+              .getClusterExpansionZoom(clusterId, function (err, zoom) {
+                if (err) return;
+                mapboxMap.easeTo({
+                  center: features[0].geometry.coordinates,
+                  zoom: zoom,
+                });
+              });
+          });
+          mapboxMap.on("mouseenter", "clusters", function () {
+            mapboxMap.getCanvas().style.cursor = "pointer";
+          });
+          mapboxMap.on("mouseleave", "clusters", function () {
+            mapboxMap.getCanvas().style.cursor = "";
+          });
+          mapboxMap.on("click", "unclustered-point", function (e) {
+            var coordinates = e.features[0].geometry.coordinates.slice();
+            var description = e.features[0].properties.description;
+
+            // Ensure that if the map is zoomed out such that multiple
+            // copies of the feature are visible, the popup appears
+            // over the copy being pointed to.
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+              coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
+
+            mapboxMap.easeTo({ center: coordinates });
+
+            // TODO: Maybe don't show anything, but just scroll to concert in concert list and mark 'active'?
+            new mapbox.Popup({})
+              .setLngLat(coordinates)
+              .setHTML('<div id="concert-popup"></div>')
+              .addTo(mapboxMap);
+
+            new ConcertElement({
+              target: document.getElementById("concert-popup"),
+              props: { concert: e.features[0] },
+            });
+          });
+
+          mapboxMap.on("mouseenter", "unclustered-point", function () {
+            mapboxMap.getCanvas().style.cursor = "pointer";
+          });
+
+          mapboxMap.on("mouseleave", "unclustered-point", function () {
+            mapboxMap.getCanvas().style.cursor = "";
+          });
+        }
+
+        mapboxMap.getSource("concerts").setData(concertsCollection);
 
         // addSources();
         // addLayers();
