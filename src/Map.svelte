@@ -7,6 +7,7 @@
   export let map;
   export let activeConcertMarker;
   export let activeConcertId;
+  export let isPlaying;
 
   const dispatch = createEventDispatcher();
 
@@ -108,30 +109,8 @@
         mapboxMap.getCanvas().style.cursor = "";
       });
       mapboxMap.on("click", "unclustered-point", function (e) {
-        var coordinates = e.features[0].geometry.coordinates.slice();
-        var description = e.features[0].properties.description;
-
-        // Ensure that if the map is zoomed out such that multiple
-        // copies of the feature are visible, the popup appears
-        // over the copy being pointed to.
-        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-        }
-
-        mapboxMap.panTo(coordinates);
-
-        activeConcertId = e.features[0].properties.id;
-
-        activeConcertMarker.remove().setLngLat(coordinates).addTo(mapboxMap);
-
-        const activeConcertElement = document.getElementById(
-          `concert-${activeConcertId}`
-        );
-
-        activeConcertElement.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
+        const concert = e.features[0];
+        dispatch("clickOnConcert", { concert });
       });
 
       mapboxMap.on("mouseenter", "unclustered-point", function () {

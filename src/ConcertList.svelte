@@ -24,6 +24,7 @@
   .concert-list {
     display: flex;
     justify-content: center;
+    align-items: center;
     padding-left: 1rem;
     padding-right: 1rem;
     flex-direction: column;
@@ -31,7 +32,6 @@
 
   .loading-icon {
     padding: 1rem;
-    align-self: center;
   }
   :global(svelte-virtual-list-viewport) {
     width: 100%;
@@ -56,6 +56,7 @@
       <div class="loading-icon">
         <Icon data={faCompactDisc} scale="4" spin />
       </div>
+      <p>Laster inn konserter...</p>
     {/if}
   </div>
 </div>

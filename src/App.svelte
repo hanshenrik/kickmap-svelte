@@ -1,16 +1,24 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import Icon from "svelte-awesome";
+  import {
+    faPlayCircle,
+    faStopCircle,
+  } from "@fortawesome/free-solid-svg-icons";
 
   import ConcertList from "./ConcertList.svelte";
   import Map from "./Map.svelte";
   import Geocoder from "./Geocoder.svelte";
-  import ConcertElement from "./Concert.svelte";
   import type { Concert, ConcertsCollection, NewLocationEvent } from "./types";
   import { createApiUrl, getRandomNumber } from "./utils";
+
+  const timeAtEachConcert = 4000;
 
   let map: any | null;
   let activeConcertId: string = "";
   let activeConcertMarker: any | null;
+  let isPlaying: boolean = false;
+  var playbackTimeoutFunction: number;
 
   let concertsCollection: ConcertsCollection = {
     type: "FeatureCollection",
@@ -61,12 +69,10 @@
         };
 
         const mapboxMap = map.getMap();
-        const mapbox = map.getMapbox();
 
         mapboxMap.getSource("concerts").setData(concertsCollection);
 
-        // console.log("Starting playback");
-        // playback(0);
+        handleTogglePlayback();
       });
   }
 
@@ -90,9 +96,75 @@
       center: coordinates,
       speed: getRandomNumber(0.5, 1), // Speed of the flight
       curve: getRandomNumber(1, 1.5), // How far 'out' we should zoom on the flight from A to B
-      zoom: getRandomNumber(10, 14), // Set a random zoom level for effect
+      zoom: getRandomNumber(11, 14), // Set a random zoom level for effect
       pitch: getRandomNumber(0, 61), // Pitch for coolness
       bearing: getRandomNumber(-10, 10), // Tilt north direction slightly for even more coolness!
+    });
+  };
+
+  const handleActiveConcertChanged = (concert) => {
+    const mapboxMap = map.getMap();
+    const coordinates = concert.geometry.coordinates.slice();
+    activeConcertId = concert.properties.id;
+
+    activeConcertMarker.remove().setLngLat(coordinates).addTo(mapboxMap);
+
+    const activeConcertElement = document.getElementById(
+      `concert-${activeConcertId}`
+    );
+
+    activeConcertElement &&
+      activeConcertElement.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+  };
+  const handleClickOnConcert = (e) => {
+    const mapboxMap = map.getMap();
+    const {
+      detail: { concert },
+    } = e;
+
+    handleActiveConcertChanged(concert);
+
+    isPlaying = false;
+    window.clearTimeout(playbackTimeoutFunction);
+    mapboxMap.panTo(concert.geometry.coordinates);
+  };
+
+  const handleTogglePlayback = () => {
+    window.clearTimeout(playbackTimeoutFunction);
+    if (!isPlaying) {
+      isPlaying = true;
+      if (activeConcertId) {
+        const currentIndex = concertsCollection.features.findIndex(
+          (concert) => concert.properties.id === activeConcertId
+        );
+        playFromIndex(currentIndex + 1);
+      } else {
+        playFromIndex(0);
+      }
+    } else {
+      isPlaying = false;
+    }
+  };
+
+  const playFromIndex = (index: number) => {
+    const mapboxMap = map.getMap();
+    const nextConcert = concertsCollection.features[index];
+    handleActiveConcertChanged(nextConcert);
+    flyToLatLng(nextConcert.geometry.coordinates);
+
+    // Once the flight has ended, initiate a timeout that triggers a recursive call
+    mapboxMap.once("moveend", function () {
+      playbackTimeoutFunction = window.setTimeout(function () {
+        // Get index of the next concert.
+        // Modulus length makes it 0 if we're at the last index, i.e. we'll start from the beginning again.
+        var nextIndex = (index + 1) % concertsCollection.features.length;
+
+        // Recursive call, fly to next concert
+        playFromIndex(nextIndex);
+      }, timeAtEachConcert); // After callback, stay at the location for x milliseconds
     });
   };
 </script>
@@ -120,21 +192,52 @@
   .songkick-attribution {
     max-width: 120px;
   }
+
+  .songkick-logo-and-play-button {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .button-without-styling {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+  }
+  .button-without-styling:hover {
+    color: #51bbd6;
+  }
+  .button-without-styling:active {
+    background: none;
+  }
 </style>
 
 <main>
   <Map
     on:newLocation={handleNewLocation}
+    on:clickOnConcert={handleClickOnConcert}
     bind:map
     bind:activeConcertMarker
-    bind:activeConcertId />
+    bind:activeConcertId
+    bind:isPlaying />
 
   <aside>
     <Geocoder on:newLocation={handleNewLocation} />
     <ConcertList concerts={concertsCollection.features} {activeConcertId} />
-    <img
-      alt="Powered by Songkick"
-      class="songkick-attribution"
-      src="images/powered-by-songkick-black.svg" />
+    <div class="songkick-logo-and-play-button">
+      <button class="button-without-styling" on:click={handleTogglePlayback}>
+        <Icon
+          data={isPlaying ? faStopCircle : faPlayCircle}
+          spin={isPlaying}
+          scale={3} />
+      </button>
+      <img
+        alt="Powered by Songkick"
+        class="songkick-attribution"
+        src="images/powered-by-songkick-black.svg" />
+    </div>
   </aside>
 </main>
