@@ -1,5 +1,4 @@
 <script lang="ts">
-  import VirtualList from "@sveltejs/svelte-virtual-list";
   import { createEventDispatcher } from "svelte";
   import Icon from "svelte-awesome";
   import { faCompactDisc } from "@fortawesome/free-solid-svg-icons";
@@ -38,17 +37,6 @@
 
   .loading-icon {
     padding: 1rem;
-  }
-  :global(svelte-virtual-list-viewport) {
-    width: 100%;
-  }
-  :global(svelte-virtual-list-row) {
-    overflow: visible !important;
-  }
-
-  :global(svelte-virtual-list-contents) {
-    padding-left: 1rem;
-    padding-right: 1rem;
   }
 </style>
 
