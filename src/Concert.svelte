@@ -11,6 +11,9 @@
 
   export let concert: Feature;
   export let activeConcertId: string;
+
+  const replaceHttpWithHttps = (url: string) =>
+    url.replace(/^http:\/\//i, "https://");
 </script>
 
 <style>
@@ -64,7 +67,7 @@
   <div class="concert-content">
     {#if concert.properties.imageURL}
       <img
-        src={concert.properties.imageURL}
+        src={replaceHttpWithHttps(concert.properties.imageURL)}
         class="artist-img"
         alt={`Bilde av ${concert.properties.title}`} />
     {:else}
