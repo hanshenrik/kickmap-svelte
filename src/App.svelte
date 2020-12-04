@@ -35,7 +35,7 @@
               properties: {
                 id: concert.id,
                 title: concert.displayName,
-                datetime: concert.start.datetime,
+                date: concert.start.date,
                 popularity: concert.popularity,
                 artist: "",
                 venue: concert.venue.displayName,

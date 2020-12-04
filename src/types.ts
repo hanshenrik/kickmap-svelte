@@ -2,7 +2,7 @@ export type Concert = {
   id: string;
   displayName: string;
   start: {
-    datetime: Date;
+    date: Date;
   };
   popularity: any;
   venue: {
@@ -23,7 +23,7 @@ export type Feature = {
   properties: {
     id: string;
     title: string;
-    datetime: Date;
+    date: Date;
     popularity: any;
     artist: string;
     venue: string;

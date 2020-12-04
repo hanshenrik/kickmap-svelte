@@ -74,7 +74,7 @@
       <Icon data={faMapMarkerAlt} />
       {concert.properties.venue}
       <Icon data={faCalendar} />
-      {new Intl.DateTimeFormat('nb-NO').format(new Date(concert.properties.datetime))}
+      {new Intl.DateTimeFormat('nb-NO').format(new Date(concert.properties.date))}
       <Icon data={faInfoCircle} />
       <a href={concert.properties.songkickURL} target="_blank">Mer info</a>
     </div>
