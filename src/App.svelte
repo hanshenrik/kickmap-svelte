@@ -9,6 +9,7 @@
   import { createApiUrl, getRandomNumber } from "./utils";
 
   let map: any | null;
+  let activeConcertId: string = "";
 
   let concertsCollection: ConcertsCollection = {
     type: "FeatureCollection",
@@ -171,6 +172,8 @@
               target: document.getElementById("concert-popup"),
               props: { concert: e.features[0] },
             });
+
+            activeConcertId = e.features[0].properties.id;
           });
 
           mapboxMap.on("mouseenter", "unclustered-point", function () {
@@ -246,7 +249,7 @@
 
   <aside>
     <Geocoder on:newLocation={handleNewLocation} />
-    <ConcertList concerts={concertsCollection.features} />
+    <ConcertList concerts={concertsCollection.features} activeConcertId={activeConcertId} />
     <img
       alt="Powered by Songkick"
       class="songkick-attribution"

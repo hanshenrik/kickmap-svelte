@@ -10,6 +10,7 @@
   import type { Feature } from "./types";
 
   export let concert: Feature;
+  export let activeConcertId: string;
 </script>
 
 <style>
@@ -23,6 +24,11 @@
     margin-bottom: 1rem;
     background-color: white;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
+    transition: transform 0.5s ease-in-out;
+  }
+  .concert.active {
+    background-color: lightyellow;
+    transform: scale(1.05);
   }
   .concert-content {
     display: grid;
@@ -55,7 +61,7 @@
   }
 </style>
 
-<div id={`concert-${concert.properties.id}`} class="concert">
+<div id={`concert-${concert.properties.id}`} class="concert" class:active="{activeConcertId === concert.properties.id}">
   <h3>{concert.properties.artist || concert.properties.title}</h3>
   <div class="concert-content">
     <a href={concert.properties.songkickURL} target="_blank">

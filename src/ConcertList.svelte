@@ -7,6 +7,7 @@
   import type { Feature } from "./types";
 
   export let concerts: Feature[];
+  export let activeConcertId: string;
 </script>
 
 <style>
@@ -39,7 +40,7 @@
 <div class="container">
   {#if concerts.length > 0}
     <VirtualList items={concerts} let:item>
-      <Concert concert={item} />
+      <Concert concert={item} activeConcertId={activeConcertId} />
     </VirtualList>
   {:else}
     <div class="loading-icon">
