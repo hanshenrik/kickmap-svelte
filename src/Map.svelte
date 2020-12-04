@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from "svelte";
-  import { Map, Marker, controls } from "@beyonk/svelte-mapbox";
+  import { Map, controls } from "@beyonk/svelte-mapbox";
 
   const { GeolocateControl, NavigationControl, ScaleControl } = controls;
 
@@ -30,12 +30,6 @@
     style="mapbox://styles/mapbox/light-v10"
     bind:this={map}
     options={{ scrollZoom: true }}>
-    <Marker
-      lat={10.1}
-      lng={73.0}
-      color="rgb(255,255,255)"
-      label="some marker label"
-      popupClassName="class-name" />
     <NavigationControl />
     <GeolocateControl on:geolocate={handleGeolocate} />
     <ScaleControl />
