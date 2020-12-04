@@ -6,8 +6,6 @@
 
   export let map;
   export let activeConcertMarker;
-  export let activeConcertId;
-  export let isPlaying;
 
   const dispatch = createEventDispatcher();
 
