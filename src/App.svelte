@@ -159,7 +159,7 @@
               coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
             }
 
-            mapboxMap.easeTo({ center: coordinates });
+            mapboxMap.panTo(coordinates);
 
             // TODO: Maybe don't show anything, but just scroll to concert in concert list and mark 'active'?
             new mapbox.Popup({})
