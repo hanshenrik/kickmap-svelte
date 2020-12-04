@@ -33,8 +33,8 @@
   .concert-content {
     display: grid;
     grid-template-columns: 1fr 2fr;
-    align-content: center;
     align-items: center;
+    text-align: left;
     grid-gap: 1rem;
   }
   .concert-info {
