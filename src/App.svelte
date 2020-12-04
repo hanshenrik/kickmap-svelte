@@ -184,8 +184,6 @@
 
         mapboxMap.getSource("concerts").setData(concertsCollection);
 
-        // addSources();
-        // addLayers();
         // console.log("Starting playback");
         // playback(0);
       });
