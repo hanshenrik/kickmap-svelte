@@ -2,7 +2,7 @@
   import { createEventDispatcher } from "svelte";
   import { Map, controls } from "@beyonk/svelte-mapbox";
 
-  const { GeolocateControl, NavigationControl, ScaleControl } = controls;
+  const { GeolocateControl, NavigationControl } = controls;
 
   export let map;
 
@@ -32,6 +32,5 @@
     options={{ scrollZoom: true }}>
     <NavigationControl />
     <GeolocateControl on:geolocate={handleGeolocate} />
-    <ScaleControl />
   </Map>
 </div>
