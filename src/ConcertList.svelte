@@ -15,38 +15,14 @@
     dispatch("clickOnConcert", { concert });
 </script>
 
-<style>
-  .container {
-    min-height: 200px;
-    width: 100%;
-    border-top: 2px solid #ccc;
-    border-bottom: 2px solid #ccc;
-    height: calc(100vh - 4rem - 38px - 56px);
-    overflow-y: scroll;
-    overflow-x: visible;
-  }
-
-  .concert-list {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    flex-direction: column;
-  }
-
-  .loading-icon {
-    padding: 1rem;
-  }
-</style>
-
 <div class="container">
   <div class="concert-list">
     {#if concerts.length > 0}
       {#each concerts as concert}
         <button
           class="concert-button"
-          on:click={() => handleConcertClick(concert)}>
+          on:click={() => handleConcertClick(concert)}
+        >
           <Concert {concert} {activeConcertId} />
         </button>
       {/each}
@@ -58,3 +34,38 @@
     {/if}
   </div>
 </div>
+
+<style>
+  .container {
+    min-height: 200px;
+    width: 100%;
+    border-top: 2px solid #ccc;
+    border-bottom: 2px solid #ccc;
+    height: calc(100vh - 4rem - 38px - 56px);
+    overflow-x: scroll;
+  }
+
+  .concert-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    overflow-x: scroll;
+  }
+  @media screen and (min-width: 812px) {
+    .container {
+      overflow-x: visible;
+      overflow-y: scroll;
+    }
+    .concert-list {
+      flex-direction: column;
+      overflow-x: scroll;
+    }
+  }
+
+  .loading-icon {
+    padding: 1rem;
+  }
+</style>
