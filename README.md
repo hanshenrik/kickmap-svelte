@@ -6,9 +6,17 @@ A map showing concerts in an area. Concerts are fetched from [Songkick](https://
 
 # Development
 
+### Serverless API
+
 ```
-$ vercel dev // Serverless API
-$ npm run dev // Frontend
+$ nvm use 14 // Make sure this runs with Node 14. If you don't have nvm, make sure 'node -v' echoes '14.x'
+$ vercel dev
+```
+
+### Frontend
+
+```
+$ npm run dev
 ```
 
 > You might need to run `vercel login` if your token is expired.
