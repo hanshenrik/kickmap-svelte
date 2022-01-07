@@ -16,6 +16,37 @@
     url.replace(/^http:\/\//i, "https://");
 </script>
 
+<div
+  id={`concert-${concert.properties.id}`}
+  class="concert"
+  class:active={activeConcertId === concert.properties.id}
+>
+  <h3>{concert.properties.artist || concert.properties.title}</h3>
+  <div class="concert-content">
+    {#if concert.properties.imageURL}
+      <img
+        src={replaceHttpWithHttps(concert.properties.imageURL)}
+        class="artist-img"
+        alt={`Bilde av ${concert.properties.title}`}
+      />
+    {:else}
+      <div class="artist-img placeholder">
+        <Icon data={faMicrophone} scale="2" />
+      </div>
+    {/if}
+    <div class="concert-info">
+      <Icon data={faMapMarkerAlt} />
+      {concert.properties.venue}
+      <Icon data={faCalendar} />
+      {new Intl.DateTimeFormat("nb-NO").format(
+        new Date(concert.properties.date)
+      )}
+      <Icon data={faInfoCircle} />
+      <a href={concert.properties.songkickURL} target="_blank">Mer info</a>
+    </div>
+  </div>
+</div>
+
 <style>
   h3 {
     margin-top: 0;
@@ -58,30 +89,3 @@
     color: black;
   }
 </style>
-
-<div
-  id={`concert-${concert.properties.id}`}
-  class="concert"
-  class:active={activeConcertId === concert.properties.id}>
-  <h3>{concert.properties.artist || concert.properties.title}</h3>
-  <div class="concert-content">
-    {#if concert.properties.imageURL}
-      <img
-        src={replaceHttpWithHttps(concert.properties.imageURL)}
-        class="artist-img"
-        alt={`Bilde av ${concert.properties.title}`} />
-    {:else}
-      <div class="artist-img placeholder">
-        <Icon data={faMicrophone} scale="2" />
-      </div>
-    {/if}
-    <div class="concert-info">
-      <Icon data={faMapMarkerAlt} />
-      {concert.properties.venue}
-      <Icon data={faCalendar} />
-      {new Intl.DateTimeFormat('nb-NO').format(new Date(concert.properties.date))}
-      <Icon data={faInfoCircle} />
-      <a href={concert.properties.songkickURL} target="_blank">Mer info</a>
-    </div>
-  </div>
-</div>

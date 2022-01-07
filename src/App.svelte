@@ -167,6 +167,40 @@
   };
 </script>
 
+<main>
+  <Map
+    on:newLocation={handleNewLocation}
+    on:clickOnConcert={handleClickOnConcert}
+    bind:map
+    bind:activeConcertMarker
+    bind:activeConcertId
+    bind:isPlaying
+  />
+
+  <aside>
+    <Geocoder on:newLocation={handleNewLocation} />
+    <ConcertList
+      concerts={concertsCollection.features}
+      {activeConcertId}
+      on:clickOnConcert={handleClickOnConcert}
+    />
+    <div class="songkick-logo-and-play-button">
+      <button class="playback-button" on:click={handleTogglePlayback}>
+        <Icon
+          data={isPlaying ? faStopCircle : faPlayCircle}
+          spin={isPlaying}
+          scale={3}
+        />
+      </button>
+      <img
+        alt="Powered by Songkick"
+        class="songkick-attribution"
+        src="images/powered-by-songkick-black.svg"
+      />
+    </div>
+  </aside>
+</main>
+
 <style>
   main {
     width: 100%;
@@ -203,33 +237,3 @@
     color: #51bbd6;
   }
 </style>
-
-<main>
-  <Map
-    on:newLocation={handleNewLocation}
-    on:clickOnConcert={handleClickOnConcert}
-    bind:map
-    bind:activeConcertMarker
-    bind:activeConcertId
-    bind:isPlaying />
-
-  <aside>
-    <Geocoder on:newLocation={handleNewLocation} />
-    <ConcertList
-      concerts={concertsCollection.features}
-      {activeConcertId}
-      on:clickOnConcert={handleClickOnConcert} />
-    <div class="songkick-logo-and-play-button">
-      <button class="playback-button" on:click={handleTogglePlayback}>
-        <Icon
-          data={isPlaying ? faStopCircle : faPlayCircle}
-          spin={isPlaying}
-          scale={3} />
-      </button>
-      <img
-        alt="Powered by Songkick"
-        class="songkick-attribution"
-        src="images/powered-by-songkick-black.svg" />
-    </div>
-  </aside>
-</main>

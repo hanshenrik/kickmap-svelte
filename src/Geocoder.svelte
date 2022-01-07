@@ -12,4 +12,5 @@
   accessToken={process.env.MAPBOX_ACCESS_TOKEN}
   on:result={handleResult}
   placeholder="Søk etter by"
-  types={['region', 'place']} />
+  types={["region", "place"]}
+/>

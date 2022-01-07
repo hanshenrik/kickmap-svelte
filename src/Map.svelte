@@ -122,6 +122,19 @@
   };
 </script>
 
+<div class="map-wrapper">
+  <Map
+    accessToken={process.env.MAPBOX_ACCESS_TOKEN}
+    style="mapbox://styles/mapbox/light-v10"
+    bind:this={map}
+    on:ready={handleReady}
+    options={{ scrollZoom: true }}
+  >
+    <NavigationControl />
+    <GeolocateControl on:geolocate={handleGeolocate} />
+  </Map>
+</div>
+
 <style>
   :global(.mapboxgl-map) {
     height: 200px; /* sometimes mapbox objects don't render as expected; troubleshoot by changing the height/width to px */
@@ -131,15 +144,3 @@
     height: 100%;
   }
 </style>
-
-<div class="map-wrapper">
-  <Map
-    accessToken={process.env.MAPBOX_ACCESS_TOKEN}
-    style="mapbox://styles/mapbox/light-v10"
-    bind:this={map}
-    on:ready={handleReady}
-    options={{ scrollZoom: true }}>
-    <NavigationControl />
-    <GeolocateControl on:geolocate={handleGeolocate} />
-  </Map>
-</div>
