@@ -31,6 +31,7 @@
   });
 
   async function getConcerts(areaId) {
+    window.clearTimeout(playbackTimeoutFunction);
     await fetch(
       createApiUrl(process.env.DEV_MODE, `/api/concerts?areaId=${areaId}`)
     )
@@ -72,7 +73,7 @@
 
         mapboxMap.getSource("concerts").setData(concertsCollection);
 
-        handleTogglePlayback();
+        playFromIndex(0);
       });
   }
 
@@ -148,6 +149,7 @@
   };
 
   const playFromIndex = (index: number) => {
+    isPlaying = true;
     const mapboxMap = map.getMap();
     const nextConcert = concertsCollection.features[index];
     handleActiveConcertChanged(nextConcert);
