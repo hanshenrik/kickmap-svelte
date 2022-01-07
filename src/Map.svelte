@@ -18,7 +18,7 @@
     const mapboxMap = map.getMap();
     const mapbox = map.getMapbox();
 
-    activeConcertMarker = new mapbox.Marker();
+    activeConcertMarker = new mapbox.Marker({ color: "#65db86", scale: 1.5 });
 
     if (!mapboxMap.getSource("concerts")) {
       // Add a new source from our GeoJSON data and set the
