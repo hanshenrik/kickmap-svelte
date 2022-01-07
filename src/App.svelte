@@ -175,8 +175,6 @@
     on:clickOnConcert={handleClickOnConcert}
     bind:map
     bind:activeConcertMarker
-    bind:activeConcertId
-    bind:isPlaying
   />
 
   <aside>
