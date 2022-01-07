@@ -95,7 +95,7 @@
       center: coordinates,
       speed: getRandomNumber(0.5, 1), // Speed of the flight
       curve: getRandomNumber(1, 1.5), // How far 'out' we should zoom on the flight from A to B
-      zoom: getRandomNumber(11, 14), // Set a random zoom level for effect
+      zoom: getRandomNumber(11, 15), // Set a random zoom level for effect
       pitch: getRandomNumber(0, 61), // Pitch for coolness
       bearing: getRandomNumber(-10, 10), // Tilt north direction slightly for even more coolness!
     });
