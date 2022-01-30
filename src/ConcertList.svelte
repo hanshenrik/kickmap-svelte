@@ -50,9 +50,13 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
     overflow-x: scroll;
+  }
+
+  .concert-button {
+    width: 100%;
   }
   @media screen and (min-width: 812px) {
     .container {
